@@ -31,6 +31,8 @@ import (
 )
 
 const (
+	keyDtEnvUrl   = "dt_env_url"
+	keyDtApiToken = "dt_api_token"
 	// error messages
 	errNoProviderConfig     = "no providerConfigRef provided"
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
@@ -83,10 +85,13 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			fmt.Sprintf("%s=%s", "HASHICUPS_PASSWORD", dynatraceCreds["password"]),
 		}*/
 		// set credentials in Terraform provider configuration
-		/*ps.Configuration = map[string]interface{}{
-			"username": dynatraceCreds["username"],
-			"password": dynatraceCreds["password"],
-		}*/
+		ps.Configuration = map[string]interface{}{}
+		if v, ok := dynatraceCreds[keyDtApiToken]; ok {
+			ps.Configuration[keyDtApiToken] = v
+		}
+		if pc.Spec.URL != "" {
+			ps.Configuration[keyDtEnvUrl] = pc.Spec.URL
+		}
 		return ps, nil
 	}
 }
