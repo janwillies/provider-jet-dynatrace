@@ -100,8 +100,12 @@ spec:
                 required:
                 - source
                 type: object
+              url:
+                description: URL of your Dynatrace Environment
+                type: string
             required:
             - credentials
+            - url
             type: object
           status:
             description: A ProviderConfigStatus reflects the observed state of a ProviderConfig.
