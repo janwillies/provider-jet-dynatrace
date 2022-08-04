@@ -23,6 +23,7 @@ import (
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	"github.com/crossplane-contrib/provider-jet-dynatrace/config/environment"
 	"github.com/crossplane-contrib/provider-jet-dynatrace/config/managementzone"
 )
 
@@ -46,11 +47,13 @@ func GetProvider() *tjconfig.Provider {
 	pc := tjconfig.NewProviderWithSchema([]byte(providerSchema), resourcePrefix, modulePath,
 		tjconfig.WithDefaultResourceFn(defaultResourceFn), tjconfig.WithIncludeList([]string{
 			"dynatrace_management_zone$",
+			"dynatrace_environment$",
 		}))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
 		managementzone.Configure,
+		environment.Configure,
 	} {
 		configure(pc)
 	}

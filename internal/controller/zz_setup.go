@@ -21,6 +21,7 @@ import (
 
 	"github.com/crossplane/terrajet/pkg/controller"
 
+	environment "github.com/crossplane-contrib/provider-jet-dynatrace/internal/controller/dynatrace/environment"
 	zone "github.com/crossplane-contrib/provider-jet-dynatrace/internal/controller/management/zone"
 	providerconfig "github.com/crossplane-contrib/provider-jet-dynatrace/internal/controller/providerconfig"
 )
@@ -29,6 +30,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		environment.Setup,
 		zone.Setup,
 		providerconfig.Setup,
 	} {
